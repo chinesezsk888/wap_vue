@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="<%= BASE_URL %>css/reset.css">
+    <link rel="stylesheet" href="<%= BASE_URL %>css/base.css">
+    <link rel="stylesheet" href="<%= BASE_URL %>css/pph_commen_own_page.css">
+    <script type="text/javascript" src="<%= BASE_URL %>js/rem.js"></script>
+    <script type="text/javascript" src="<%= BASE_URL %>js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="<%= BASE_URL %>js/main-1.1.js"></script>
+    <title>pyqcomment</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but wap_vue doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <input type="hidden" id="isLogin" name="是否登录" value="true">
+    <script>
+        
+      //初始头部moblink
+      function initHeaderMob(mobstr){
+          $("#vuemoblink_top_xiazai_btn").attr("data-moblink",mobstr);
+      }
+  
+      var bt = $('#toolBackTop');
+      $(window).scroll(function() {
+        bt.show();
+        var st = $(window).scrollTop() || document.documentElement.scrollTop || document.body.scrollTop;
+        if(st > 100){
+          bt.show();
+        }else{
+          bt.hide();
+        }
+        if (st > 54){
+          $("#chnfloat").addClass("chnfloat");
+        }else{
+          $("#chnfloat").removeClass("chnfloat");
+        }
+      });
+      var mySwiperWinImg = null;
+      function getSwiperWinImg(index){
+          var swiper = new Swiper ('.imgwin_swpier_container', {
+              slidesPerView :'auto',
+              onTransitionEnd: function(swiper){
+                  $(".imgwin").find("span").html(swiper.activeIndex+1);
+              }
+          }) 
+          return swiper;
+      }
+      function initSwiperImg(index){
+          if(mySwiperWinImg == null){
+              mySwiperWinImg = getSwiperWinImg(0);
+          }else{
+              mySwiperWinImg.update(true);
+          }
+          mySwiperWinImg.slideTo(index,0)
+      }
+  </script>
+
+  </body>
+</html>
