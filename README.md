@@ -9,6 +9,7 @@ pages/consumers_complaint 质量报告
 pages/epidemic_situation 抗疫情建言 其中 ReplyPanelOri.vue 是传统回调地狱版本，废弃
 pages/zwpaper 早晚报
 pages/video_detail wap六周年视频详情热门推荐
+pages/inventory_detail 澎友清单
 ##css
 为了部署方便 将css独立出来。因此css源码没有在vue项目中而是在jsp的相关目录
 

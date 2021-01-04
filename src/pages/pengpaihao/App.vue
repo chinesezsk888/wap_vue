@@ -1,5 +1,4 @@
 <template>
-
   <div class="pa_panel" id="vuePanel">
     <div class="vue_loading" v-show="isLoading"></div>
     <div
@@ -18,18 +17,18 @@
         <template v-if="contItem.cardMode == 4">
           <recommend-select :contItem="contItem"/>
         </template>
-          <div class="pa_item" :class="{pa_item_big:contItem.imgCardMode==2}" v-if="contItem.cardMode == 1">
-              <a class="pa_item_header" :href="contItem.authorInfo.url" v-if="isShowAuthor(contItem)">
-                  <div class="pa_item_author"><div class="thum_bg"><img class="thum" :src="contItem.authorInfo.pic"><span class="icon_vip" v-if="contItem.authorInfo.isAuth == '1'"></span></div>{{contItem.authorInfo.sname}}</div>
-                  <div class="pa_tri"></div>
-              </a>
-              <list-item :contItem="contItem"></list-item>
-          </div>
+        <div class="pa_item" :class="{pa_item_big:contItem.imgCardMode==2}" v-if="contItem.cardMode == 1">
+            <a class="pa_item_header" :href="contItem.authorInfo.url" v-if="isShowAuthor(contItem)">
+                <div class="pa_item_author"><div class="thum_bg"><img class="thum" :src="contItem.authorInfo.pic"><span class="icon_vip" v-if="contItem.authorInfo.isAuth == '1'"></span></div>{{contItem.authorInfo.sname}}</div>
+                <div class="pa_tri"></div>
+            </a>
+            <list-item :contItem="contItem"></list-item>
+        </div>
       </div>
     </div>
     <div class="status_panel" id="listEnd" v-show="nextUrl==''&&!isLoading">
       <span class="status_panel_txt">到底了</span>
-  </div>
+    </div>
     <div class="newspath" v-show="nextUrl!='' && pageIndex <= 5 && !isLoading"></div>
     <a class="moblink_btn-690 more_moblink" id="vuemoblink_list" :data-moblink="'demo/a?contType=51&contId='+moblinkId" moblink-featured v-show="pageIndex>5">更多澎湃号好文，下载澎湃新闻APP</a>
   </div>

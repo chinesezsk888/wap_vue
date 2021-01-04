@@ -111,74 +111,74 @@ export default {
 .audio_panel{
   width:6.70rem;
   height:auto;
-  padding:0.18rem 0.3rem 0.18rem;
-  margin-bottom:0.60rem;
-  margin-left: 0.4rem;
-  box-shadow: 0 0.05rem 0.07rem 0.02rem rgba(0,0,0,0.10);
+    padding:0.18rem 0.3rem 0.18rem;
+    margin-bottom:0.60rem;
+    margin-left: 0.4rem;
+    box-shadow: 0 0.05rem 0.07rem 0.02rem rgba(0,0,0,0.10);
   audio{
     display: none;
-}
-.audio_controls{
-  width:100%;
-  height:0.72rem;
-}
-.title{
-  font-size: .32rem;
-  line-height: .42rem;
-  color: #333;
-  margin-bottom: .20rem;
-  overflow: hidden;
-}
-.play_btn{
-  float:left;
-  width:0.72rem;
-  height:0.72rem;
-}
-.play_btn img{
-  width:100%;
-  height:100%;
-}
-.audio_bar_bg{
-  float:right;
-  width:5.08rem;
-  margin-top: 0.3rem;
-}
-.time{
-  width:100%;
-  margin-top:0.1rem;
-  margin-left: 0;
-  color:#333;
-  font-size:0.18rem;
-}
-.time_current{
-  float:left;
-}
-.time_duration{
-  float:right;
-}
-.audio_bar{
-  width:100%;
-  height:0.04rem;
-  background: #C8C8C8;
-  border-radius: 2px;
-  position: relative;
-}
-.bar_loaded{
-  position: absolute;
-  height:0.04rem;
-  top:0;
-  left:0;
-  background: #434343;
-}
-.bar_btn{
-  width:0.2rem;
-  height:0.2rem;
-  position: absolute;
-  left:0.10rem;
-  top: -0.08rem;
-  background: url(~@/assets/zwpaper/zw_audio_bar.png) no-repeat;
-  background-size: 0.12rem;
-  background-position: center left;
-}
+  }
+  .audio_controls{
+    width:100%;
+    height:0.72rem;
+  }
+  .title{
+    font-size: .32rem;
+    line-height: .42rem;
+    color: #333;
+    margin-bottom: .20rem;
+    overflow: hidden;
+  }
+  .play_btn{
+    float:left;
+    width:0.72rem;
+    height:0.72rem;
+  }
+  .play_btn img{
+    width:100%;
+    height:100%;
+  }
+  .audio_bar_bg{
+    float:right;
+    width:5.08rem;
+    margin-top: 0.3rem;
+  }
+  .time{
+    width:100%;
+    margin-top:0.1rem;
+    margin-left: 0;
+    color:#333;
+    font-size:0.18rem;
+  }
+  .time_current{
+    float:left;
+  }
+  .time_duration{
+    float:right;
+  }
+  .audio_bar{
+    width:100%;
+    height:0.04rem;
+    background: #C8C8C8;
+    border-radius: 2px;
+    position: relative;
+  }
+  .bar_loaded{
+    position: absolute;
+    height:0.04rem;
+    top:0;
+    left:0;
+    background: #434343;
+  }
+  .bar_btn{
+    width:0.2rem;
+    height:0.2rem;
+    position: absolute;
+    left:0.10rem;
+    top: -0.08rem;
+    background: url(~@/assets/zwpaper/zw_audio_bar.png) no-repeat;
+    background-size: 0.12rem;
+    background-position: center left;
+  }
 }
 </style>

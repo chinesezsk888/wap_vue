@@ -53,84 +53,84 @@ export default {
 </script>
 <style lang="scss">
 .zwpaper_item{
-a{
-  display:block;
-}
-div{
-  letter-spacing: 0;
-  text-align: justify;
-  line-height: 0.42rem;
-}
-img:not([src]) {
-    opacity: 0;
-}
-video{
-  width:100%;height:100%;
-}
-.title{
-  font-size: 0.36rem;
-  color: #000;
-  margin-bottom:0.2rem;
-}
-.summary{
-  font-size: 0.30rem;
-  color: #999;
-  margin-bottom:0.1rem;
-}
-.show_more{
-  font-size: 0.30rem;
-  color: #666;
-}
-.img_con {
-  width:100%;
-  margin: 0.30rem 0 0.2rem;
-  position: relative;
-}
-.img{
-  width:6.30rem;
+  a{
+    display:block;
+  }
+  div{
+    letter-spacing: 0;
+    text-align: justify;
+    line-height: 0.42rem;
+  }
+  img:not([src]) {
+      opacity: 0;
+  }
+  video{
+    width:100%;height:100%;
+  }
+  .title{
+    font-size: 0.36rem;
+    color: #000;
+    margin-bottom:0.2rem;
+  }
+  .summary{
+    font-size: 0.30rem;
+    color: #999;
+    margin-bottom:0.1rem;
+  }
+  .show_more{
+    font-size: 0.30rem;
+    color: #666;
+  }
+  .img_con {
+    width:100%;
+    margin: 0.30rem 0 0.2rem;
+    position: relative;
+  }
+  .img{
+    width:6.30rem;
     height:3.55rem;
     object-fit: cover;
-}
-.img_bg{
-  position: absolute;
-  width:100%;
-  text-align: center;
-  z-index: -1;
-}
-.img_bg::before{
-  content: "";
-  display: block;
-  width:6.10rem;
-  height:0.1rem;
-  background: #C8C8C8;
-  margin:0 auto;
-}
-.img_bg::after{
-  content: "";
-  display: block;
-  width:5.80rem;
-  height:0.1rem;
-  background: #F0F0F0;
-  margin:0 auto;
-}
-.img_label{
-  position: absolute;
-  right:0.2rem;
-  bottom:0.2rem;
-  width:0.93rem;
-  height:0.36rem;
-  border-radius: 0.18rem;
-  color:#fff;
-  text-align: center;
-  line-height: 0.36rem;
-  background: url(~@/assets/zwpaper/zw_label_altas.png) no-repeat;
-  background-size: 100%;
-}
-.video_con{
-  position: relative;
-  height: 3.55rem;
-  margin-bottom:0.2rem;
-  margin-top:0.3rem;
+  }
+  .img_bg{
+    position: absolute;
+    width:100%;
+    text-align: center;
+    z-index: -1;
+  }
+  .img_bg::before{
+    content: "";
+    display: block;
+    width:6.10rem;
+    height:0.1rem;
+    background: #C8C8C8;
+    margin:0 auto;
+  }
+  .img_bg::after{
+    content: "";
+    display: block;
+    width:5.80rem;
+    height:0.1rem;
+    background: #F0F0F0;
+    margin:0 auto;
+  }
+  .img_label{
+    position: absolute;
+    right:0.2rem;
+    bottom:0.2rem;
+    width:0.93rem;
+    height:0.36rem;
+    border-radius: 0.18rem;
+    color:#fff;
+    text-align: center;
+    line-height: 0.36rem;
+    background: url(~@/assets/zwpaper/zw_label_altas.png) no-repeat;
+    background-size: 100%;
+  }
+  .video_con{
+    position: relative;
+    height: 3.55rem;
+    margin-bottom:0.2rem;
+    margin-top:0.3rem;
     .poster{
       width: 6.30rem;
       height: 3.55rem;
@@ -154,34 +154,34 @@ video{
       line-height: .42rem;
       margin-right: .2rem;
     }
-}
-.video_playbtn{
-  top:50%;
-  left:50%;
-  margin-top:-0.45rem;
-  margin-left:-0.45rem;
-  position: absolute;
-  height:0.9rem;
-  width:0.9rem;
-}
-.img_count{
-  position: absolute;
-  right: 0.18rem;
-  font-size: 0.18rem;
-  color: #FFF;
-  height: 0.36rem;
-  text-align: center;
-  top: -0.01rem;
-}
+  }
+  .video_playbtn{
+    top:50%;
+    left:50%;
+    margin-top:-0.45rem;
+    margin-left:-0.45rem;
+    position: absolute;
+    height:0.9rem;
+    width:0.9rem;
+  }
+  .img_count{
+    position: absolute;
+    right: 0.18rem;
+    font-size: 0.18rem;
+    color: #FFF;
+    height: 0.36rem;
+    text-align: center;
+    top: -0.01rem;
+  }
 }
 @media screen and (min-width: 750px){
   .zwpaper_item{
-  .img{
-    width:100%;
-    height: auto;
-  }
-  .img_bg::before{width:95%}
-  .img_bg::after{width:90%}
+    .img{
+      width:100%;
+      height: auto;
+    }
+    .img_bg::before{width:95%}
+    .img_bg::after{width:90%}
   }
 }
 </style>

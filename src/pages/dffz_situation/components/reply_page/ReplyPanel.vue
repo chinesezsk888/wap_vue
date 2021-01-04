@@ -33,7 +33,7 @@
       <app-input-card class="myinput_card"
         ref="title"
         :title="'标题'"
-        :placeholder="'请输入标题，不超过40字请输入标题'"
+        :placeholder="'请输入标题，不超过40字'"
         :required="true"
         :count="40"
         :type="1"
@@ -65,10 +65,10 @@
           </div>
 
           <div :class="{'upload_controller':contType!=1,'upload_controller-image':contType==2,'upload_controller-video':contType==3} ">
-            <div class="upload_image_btn"/>
-            <input type="file" ref="fileImage" accept="image/*" @change="fileImageChange($event)" class="upload_input upload_input-image">
-            <div class="upload_video_btn"/>
-            <input type="file" ref="fileVideo" accept="video/*" @change="fileVideoChange($event)" class="upload_input upload_input-video">
+            <div v-if="fileShowSrc.length<3" class="upload_image_btn"/>
+            <input v-if="fileShowSrc.length<3" type="file" ref="fileImage" accept="image/*" @change="fileImageChange($event)" class="upload_input upload_input-image">
+            <div v-if="fileShowSrc.length<3" class="upload_video_btn"/>
+            <input v-if="fileShowSrc.length<3" type="file" ref="fileVideo" accept="video/*" @change="fileVideoChange($event)" class="upload_input upload_input-video">
           </div>
 
         </div>
@@ -197,7 +197,7 @@ export default {
       area: { // 地区
         value: '',
         status: false,
-        txt: '地区'
+        txt: '留言对象'
       },
       description: { // 详细说明
         value: '',
@@ -305,6 +305,7 @@ export default {
         return
       }
       if (e.currentTarget.files[0].size > (200 * 1024 * 1024)) {
+        this.$refs.fileVideo.value = ''
         msgAlert('视频请小于200M')
         return
       }
@@ -322,7 +323,8 @@ export default {
         return
       }
       if (e.currentTarget.files[0].size > (20 * 1024 * 1024)) {
-        msgAlert('视频请小于20M')
+        this.$refs.fileImage.value = ''
+        msgAlert('图片请小于20M')
         return
       }
       loading.show()
@@ -522,7 +524,8 @@ export default {
         accessKeyId: this.ossData.accessKeyId,
         accessKeySecret: this.ossData.accessKeySecret,
         stsToken: this.ossData.stsToken,
-        bucket: this.ossData.bucket
+        bucket: this.ossData.bucket,
+        secure: true
       })
       let storeAsName = ''
       let extraName = ''

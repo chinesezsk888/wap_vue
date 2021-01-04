@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="resultCode == 1">
+    <div v-if="resultCode == 1" :class="newsType=='1'?'city_zwpaper':''">
       <div class="header">
         <div class="header_bg" @click="goTopNews">
           <img :src="specialInfo.pic">
@@ -14,7 +14,8 @@
         </div>
         <div v-if="calendarData.resultCode==1">
           <zwpaper-calendar v-show='showCalendarStatus' :class="{show_calendar:showCalendarStatus}"
-          :data="calendarData" :bgColor="gradationColor" :current='dateInfo' @close="closeCalendar"></zwpaper-calendar>
+          :data="calendarData" :bgColor="gradationColor" :current='dateInfo' @close="closeCalendar"
+          @getCalendar="getCalendar" :newsType="newsType"></zwpaper-calendar>
         </div>
         <div class="infor"  @click="goTopNews">
           <div class="infor_body">
@@ -51,10 +52,15 @@
         </div>
       </div>
       <zwpaper-aditem :url="bottomAdUrl"></zwpaper-aditem>
-      <a href="javascript:void(0);" ref="moblinkZwpaper" id="moblink_zwpaper" class="zwpaper_gomob" moblink-featured>
-        打开澎湃新闻APP 浏览往期早晚报
-      </a>
-
+      <!-- <a href="javascript:void(0);" ref="moblinkZwpaper" id="moblink_zwpaper" class="zwpaper_gomob" moblink-featured>
+        {{newsType=='1'?'打开澎湃新闻APP 浏览往期城市发展日报':'打开澎湃新闻APP 浏览往期早晚报'}}
+      </a> -->
+      <a class="zwpaper_gomob"
+       :id="'vuemoblink_'+resultContId"
+       :data-moblink="'demo/a?contType='+contType+'&contId='+resultContId"
+       moblink-featured>
+      {{newsType=='1'?'打开澎湃新闻APP 浏览往期城市发展日报':'打开澎湃新闻APP 浏览往期早晚报'}}
+    </a>
     </div>
     <div v-if="resultCode == 5">
         <div class="error_page">{{resultMsg}}</div>
@@ -90,6 +96,16 @@ export default {
       }
     }
   },
+  updated () {
+    this.$nextTick(function () {
+      this.mywindow.vueMoblinkInit()
+      this.mywindow.initHeadPanel({
+        contType: Number(this.contType),
+        contId: this.resultContId
+      })
+      this.mywindow.baseMobLinkInit("a[id^='moblink']")
+    })
+  },
   methods: {
     goTopNews () {
       if (this.specialInfo.topContInfo) {
@@ -107,12 +123,22 @@ export default {
     getPageData () {
       let n = getUrlKey('n')
       let status = getUrlKey('status')
+      let newsType = getUrlKey('newsType')
       if (status == 1) {
         this.showCalendarStatus = true
       }
       let url = 'morningEveningNewsDetail.jsp'
+      if (!newsType || newsType=='' || newsType=='0' || newsType==null) {
+        url += '?newsType=0'
+        this.contType = '42'
+        this.newsType = '0'
+      } else if (newsType=='1') {
+        url += '?newsType=1'
+        this.contType = '60'
+        this.newsType = '1'
+      }
       if (n && n != '') {
-        url += '?n=' + n
+        url += '&n=' + n
       }
       this.axios.get(url)
         .then(res => {
@@ -128,32 +154,24 @@ export default {
           this.topAdUrl = resp.topAdUrl
           this.bottomAdUrl = resp.bottomAdUrl
           this.virtualAnchor = resp.virtualAnchor
-          this.mywindow.MobLink({
-            el: '#moblink_zwpaper',
-            path: 'demo/a',
-            params: {
-              contId: this.resultContId,
-              contType: '42'
-            }
-          })
-          this.mywindow.initHeadPanel({
-            contType: 42,
-            contId: this.resultContId
-          })
-          this.mywindow.baseMobLinkInit("a[id^='moblink']")
           this.mywindow.wxShare({
             title: this.specialInfo.shareTitle,
             desc: this.specialInfo.shareSummary,
             link: this.mywindow.location.href,
             img: this.specialInfo.sharePic
           })
-          this.getCalendar(this.dateInfo.year + this.dateInfo.month)
+          this.getCalendar(this.dateInfo.year + this.dateInfo.month,newsType)
         }).catch(() => {
           console.log('请稍后重试')
         })
     },
-    getCalendar (yearMonth) {
+    getCalendar (yearMonth,type) {
       let url = 'morningEveningNewsCalendar.jsp?dateStr=' + yearMonth
+      if (!type || type=='' || type=='0' || type==null) {
+        url += '&newsType=0'
+      } else if (type=='1') {
+        url += '&newsType=1'
+      }
       this.axios.get(url).then(res => {
         this.calendarData = res.data
       }).catch(() => {
@@ -178,7 +196,9 @@ export default {
       bottomAdUrl: '',
       calendarData: {},
       showCalendarStatus: false,
-      virtualAnchor: {}
+      virtualAnchor: {},
+      newsType: '', // 区分早晚报和城市发展日报
+      contType: '' // moblink跳转参数
     }
   }
 }
@@ -189,172 +209,178 @@ export default {
   max-width: 750px;
   margin: 0 auto;
   margin-top:0.88rem;
-i{
-  font-style: normal;
-}
-.top_bg{
-  background:url(~@/assets/zwpaper/zw_top_bg.png) no-repeat;
-  width:100%;
-  height: 1.12rem;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-size: contain;
-}
-.header_bg img{
-  width:100%;
-}
-.header{
-  position: relative;
-  margin-bottom:0.6rem;
-}
-.header .date{
-  width:1.6rem;
-  height:1.6rem;
-  position: absolute;
-  top:0;
-  left:50%;
-  margin-left:-0.8rem;
-  text-align: center;
-  color: #fff;
-  font-size: 0.24rem;
-}
-.author i{
-  font-size: 0.24rem;
-  margin-right:0.2rem;
-}
-.date .type1{
-  margin-top:0.14rem;
-  font-size: 0.24rem;
-}
-.date .type2{
-  font-size:0.48rem;
-}
-.date .type3{
-  font-size: 0.24rem;
-}
-.festival{
-  font-size: 0.22rem;
-  width: 0.2rem;
-  margin-left: 0.2rem;
-  display: inline-block;
-  line-height: 0.24rem;
-  position: relative;
-}
-.festival::before{
-  content: "";
-  position: absolute;
-  opacity: 0.3;
-  height: 0.48rem;
-  width: 1px;
-  top: -0.01rem;
-  left: -0.1rem;
-  background: #FFFFFF;
-}
-.header .infor{
-  position: absolute;
-  bottom:0;
-  padding:0.34rem 0.6rem 0.25rem;
-  height:3.78rem;
-  width:100%;
-  background:url(~@/assets/zwpaper/zw_bottom_bg.png) no-repeat;
-  background-size: contain;
-}
-.infor .title{
-  font-size: 0.36rem;
-  color: #FFF;
-  line-height: 0.42rem;
-  margin-bottom:0.30rem;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.50);
-}
-.infor_body{
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 0.34rem 0.6rem 0.25rem;
-}
-.node_summary{
-  position: relative;
-  font-size: 0.30rem;
-  color: #f0f0f0;
-  line-height: 0.38rem;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.50);
-}
-.infor .con_link{
-  display: block;
-  font-size: 0.30rem;
-  color: #f0f0f0;
-  margin-bottom:0.3rem;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.50);
-}
-.infor .author{
-  font-size: 0.24rem;
-  color: #f0f0f0;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.50);
-}
-.content{
-  padding:0 0.6rem ;
-}
+  i{
+    font-style: normal;
+  }
+  .top_bg{
+    background:url(~@/assets/zwpaper/zw_top_bg.png) no-repeat;
+    width:100%;
+    height: 1.12rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: contain;
+  }
+  .header_bg img{
+    width:100%;
+  }
+  .header{
+    position: relative;
+    margin-bottom:0.6rem;
+  }
+  .header .date{
+    width:1.6rem;
+    height:1.6rem;
+    position: absolute;
+    top:0;
+    left:50%;
+    margin-left:-0.8rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.24rem;
+  }
+  .author i{
+    font-size: 0.24rem;
+    margin-right:0.2rem;
+  }
+  .date .type1{
+    margin-top:0.14rem;
+    font-size: 0.24rem;
+  }
+  .date .type2{
+    font-size:0.48rem;
+  }
+  .date .type3{
+    font-size: 0.24rem;
+  }
+  .festival{
+    font-size: 0.22rem;
+    width: 0.2rem;
+    margin-left: 0.2rem;
+    display: inline-block;
+    line-height: 0.24rem;
+    position: relative;
+  }
+  .festival::before{
+    content: "";
+    position: absolute;
+    opacity: 0.3;
+    height: 0.48rem;
+    width: 1px;
+    top: -0.01rem;
+    left: -0.1rem;
+    background: #FFFFFF;
+  }
+  .header .infor{
+    position: absolute;
+    bottom:0;
+    padding:0.34rem 0.6rem 0.25rem;
+    height:3.78rem;
+    width:100%;
+    background:url(~@/assets/zwpaper/zw_bottom_bg.png) no-repeat;
+    background-size: contain;
+  }
+  .infor .title{
+    font-size: 0.36rem;
+    color: #FFF;
+    line-height: 0.42rem;
+    margin-bottom:0.30rem;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.50);
+    font-weight: bold;
+  }
+  .infor_body{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0.34rem 0.6rem 0.25rem;
+  }
+  .node_summary{
+    position: relative;
+    font-size: 0.30rem;
+    color: #f0f0f0;
+    line-height: 0.38rem;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.50);
+  }
+  .infor .con_link{
+    display: block;
+    font-size: 0.30rem;
+    color: #f0f0f0;
+    margin-bottom:0.3rem;
+    margin-top: 0.1rem;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.50);
+    text-align: right;
+  }
+  .infor .author{
+    font-size: 0.24rem;
+    color: #f0f0f0;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.50);
+  }
+  .content{
+    padding:0 0.6rem ;
+  }
   .content .h2_title{
-  font-size: 0.3rem;
-  color: #00A5EB;
-  position: relative;
-  padding-left:0.22rem;
-  margin-bottom:0.3rem;
-}
+    font-size: 0.3rem;
+    color: #00A5EB;
+    position: relative;
+    padding-left:0.22rem;
+    margin-bottom:0.3rem;
+  }
   .content .h2_title::before{
-  content: "";
-  display: block;
-  width:0.12rem;
-  height:0.12rem;
-  background: #00A5EB;
-  position: absolute;
-  left:0 ;
-  top:0.16rem;
+    content: "";
+    display: block;
+    width:0.12rem;
+    height:0.12rem;
+    background: #00A5EB;
+    position: absolute;
+    left:0 ;
+    top:0.16rem;
+  }
+  .zwperitem{
+    margin-bottom:0.6rem;
+  }
+  .button{
+    background-image: linear-gradient(-45deg, #3385DB 0%, #9889CE 100%);
+    border-radius: 0.38rem;
+    width:6.3rem;
+    height:0.80rem;
+    font-size: 0.32rem;
+    color: #fff;
+    text-align: center;
+    line-height: 0.80rem;
+    margin:0 auto;
+    margin-top:1.05rem;
+  }
+  .error_page{
+    font-size: 0.5rem;
+    text-align: center;
+    margin-top: 3rem;
+  }
+  .node_summary+.author{
+    margin-top:0.3rem;
+  }
+  .zwpaper_gomob{
+    display: block;
+    background-image:linear-gradient(-45deg,#3385db,#9889ce);
+    border-radius:.38rem;
+    width:6.3rem;
+    height:.8rem;
+    font-size:.32rem;
+    color:#fff;
+    text-align:center;
+    line-height:.8rem;
+    margin:0 auto;
+    margin-top:1.05rem;
+    margin-bottom:0.9rem;
+  }
 }
-.zwperitem{
-  margin-bottom:0.6rem;
-}
-.button{
-  background-image: linear-gradient(-45deg, #3385DB 0%, #9889CE 100%);
-  border-radius: 0.38rem;
-  width:6.3rem;
-  height:0.80rem;
-  font-size: 0.32rem;
-  color: #fff;
-  text-align: center;
-  line-height: 0.80rem;
-  margin:0 auto;
-  margin-top:1.05rem;
-}
-.error_page{
-  font-size: 0.5rem;
-  text-align: center;
-  margin-top: 3rem;
-}
-.node_summary+.author{
-  margin-top:0.3rem;
-}
-.zwpaper_gomob{
-  display: block;
-  background-image:linear-gradient(-45deg,#3385db,#9889ce);
-  border-radius:.38rem;
-  width:6.3rem;
-  height:.8rem;
-  font-size:.32rem;
-  color:#fff;
-  text-align:center;
-  line-height:.8rem;
-  margin:0 auto;
-  margin-top:1.05rem;
-  margin-bottom:0.9rem;
-}
+#app .city_zwpaper .week_usable.week_current:after {
+    background: #7188A2;
 }
 @media screen and (min-width: 750px){
   #app{
-  .header .infor,.top_bg{
-    background-repeat: repeat-x;
+    .header .infor,.top_bg{
+      background-repeat: repeat-x;
     }
   }
 }
@@ -366,10 +392,10 @@ i{
 }
 @media screen and (max-width: 360px){
   #app{
-   .header .date{
-     width:1.7rem;
-     height:1.7rem;
-   }
+    .header .date{
+      width:1.7rem;
+      height:1.7rem;
+    }
   }
 }
 </style>

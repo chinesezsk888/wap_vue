@@ -23,13 +23,12 @@
 </template>
 <script>
 
-let calendarUrl = 'morningEveningNewsCalendar.jsp?dateStr='
-
 export default {
   props: {
     bgColor: Object,
     data: Object,
-    current: Object
+    current: Object,
+    newsType: String
   },
   computed: {
     dateYearMonth () { // 1999年7月
@@ -57,6 +56,7 @@ export default {
       calendarData: {},
       currentDay: 0,
       maxDateInfo: {},
+      minDateInfo: {},
       currentNodeList: {},
       closeStatus: false
     }
@@ -67,6 +67,10 @@ export default {
       if (this.currentDay != 0) {
         this.nodeList = this.currentNodeList
       }
+    },
+    data () {
+      this.dateInfo = this.data.dateInfo
+      this.calendar = this.data.calendar
     }
   },
   mounted () {
@@ -149,33 +153,21 @@ export default {
     },
     sendCalendar (month, year) {
       month = formitMonth(month)
-      let url = calendarUrl + year + month
-      this.axios.get(url).then(res => {
-        this.dateInfo = res.data.dateInfo
-        this.calendar = res.data.calendar
-        if (year + month == this.current.year + formitMonth(this.current.month)) { // 文章相同月保留文章选择信息
-          this.currentDay = parseInt(this.current.day) || 0
-        } else { // 其余月选择区域置空
-          this.currentDay = 0
-          this.nodeList = {}
-        }
-      }).catch(() => {
-        console.log('请稍后重试')
-      })
+      this.$emit("getCalendar",year + month,this.newsType)
+      if (year + month == this.current.year + formitMonth(this.current.month)) { // 文章相同月保留文章选择信息
+        this.currentDay = parseInt(this.current.day) || 0
+      } else { // 其余月选择区域置空
+        this.currentDay = 0
+        this.nodeList = {}
+      }
     },
     calendarLast () { // 最新
       let month = formitMonth(this.maxDateInfo.month)
-      let url = calendarUrl + this.maxDateInfo.year + month
-      this.axios.get(url).then(res => {
-        this.dateInfo = res.data.dateInfo
-        this.calendar = res.data.calendar
-        this.currentDay = this.maxDateInfo.day // 最新需要默认选 天
-      }).catch(() => {
-        console.log('请稍后重试')
-      })
+      this.$emit("getCalendar",this.maxDateInfo.year + month,this.newsType)
+      this.currentDay = this.maxDateInfo.day // 最新需要默认选 天
     },
     goDetail (contId) {
-      window.location.href = document.location.protocol + '//' + window.location.host + window.location.pathname + '?n=' + contId
+      window.location.href = document.location.protocol + '//' + window.location.host + window.location.pathname + '?n=' + contId + '&newsType=' + this.newsType
     }
   }
 }

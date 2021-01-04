@@ -63,6 +63,11 @@ module.exports = {
       entry: './src/pages/dffz_situation/main.js',
       template: './src/pages/dffz_situation/index.html',
       filename: 'dffz_situation.html'
+    },
+    inventory_detail : {
+      entry: './src/pages/inventory_detail/main.js',
+      template: './src/pages/inventory_detail/index.html',
+      filename: 'inventory_detail.html'
     }
   },
   configureWebpack: config => {

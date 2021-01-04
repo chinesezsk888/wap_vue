@@ -64,24 +64,25 @@ export default {
   background: #fff;
   position: relative;
   margin:0.2rem;
-.ad_link{
-  width:100%;
+  .ad_link{
+    width:100%;
+  }
+  .ad_link img{
+    width:100%;
+  }
+  .label{
+    position: absolute;
+    border: 1px solid #AFAFAF;
+    height:0.34rem;
+    width:0.6rem;
+    color: #AFAFAF;
+    text-align: center;
+    font-size: 0.16rem;
+    top:0.2rem;
+    right:0.6rem;
+  }
 }
-.ad_link img{
-  width:100%;
-}
-.label{
-  position: absolute;
-  border: 1px solid #AFAFAF;
-  height:0.34rem;
-  width:0.6rem;
-  color: #AFAFAF;
-  text-align: center;
-  font-size: 0.16rem;
-  top:0.2rem;
-  right:0.6rem;
-}
-}
+
 @media screen and (max-width: 360px){
   .ad_panel .label{
     height: .4rem;

@@ -11,7 +11,7 @@
     </div>
 <transition name="fade">
     <ul class="nav_list" v-show="menuShow">
-      <li v-for="item in (itemList.slice(1))" class="nav_item" :class="{on:item[propertyId]==selectId}" :key="item[propertyId]" @click="selectList(item)">
+      <li v-for="item in itemList" class="nav_item" :class="{on:item[propertyId]==selectId}" :key="item[propertyId]" @click="selectList(item)">
         {{item[propertyTxt]}}
       </li>
     </ul>

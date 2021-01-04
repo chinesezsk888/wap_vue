@@ -4,8 +4,6 @@ import sendHttp from './http'
 function getUrlKey (name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || ['', ''])[1].replace(/\+/g, '%20')) || null
 }
-
-
 // user_interaction_3333
 function getUrlKey2 () {
   let pathname = window.location.pathname
@@ -83,7 +81,6 @@ export const sendH5APP = function (str) { // 判断是否是APP
   let isInIosApp = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.thepaperNewsClicked
   let isInAndroidApp = window.thepaper && window.thepaper.newsClicked
   var appLink = H5APPConfig.thePaperParam + str
-  console.log(str)
   if (isInIosApp) { // ios
     window.webkit.messageHandlers.thepaperNewsClicked.postMessage(appLink)
   } else if (isInAndroidApp) { // android
@@ -98,6 +95,7 @@ export const isInWeixin = function () { // 判断是否在微信
     return false
   }
 }
+
 // app下载方法
 export const downloadForApp = function (data) {
   if (getAppStyle() === 2) { // android

@@ -27,7 +27,7 @@ export default {
       }, 50)
     }
   },
-  mounte () {
+  mounted () {
     this.move()
   }
 }
@@ -35,22 +35,22 @@ export default {
 <style lang="scss">
 .marquee{
   font-size:inherit;
-.msg_panel{
-  overflow: hidden;
-  width:100%;
-  font-size:inherit;
-}
-.msg{
-  text-align: left;
-  white-space: nowrap;
-  font-size:inherit;
-}
-._msg{
-  position: absolute;
-  z-index: -10;
-  font-size:inherit;
-  top:-99999px;
-  left:-99999px;
-}
+  .msg_panel{
+    overflow: hidden;
+    width:100%;
+    font-size:inherit;
+  }
+  .msg{
+    text-align: left;
+    white-space: nowrap;
+    font-size:inherit;
+  }
+  ._msg{
+    position: absolute;
+    z-index: -10;
+    font-size:inherit;
+    top:-99999px;
+    left:-99999px;
+  }
 }
 </style>
